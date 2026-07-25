@@ -142,7 +142,7 @@ namespace Estante.Game
                     new SpriteText
                     {
                         Y = 321,
-                        Text = "A dynamic book reader.",
+                        Text = "A beautiful ebook reader.",
                         Font = FontUsage.Default.With(size: 17),
                         Colour = textSecondary
                     }
