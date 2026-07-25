@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estante.Desktop", "Estante.Desktop\Estante.Desktop.csproj", "{AEB3FC89-DC3E-4BC9-9EC7-03B72FC5D849}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estante.iOS", "Estante.iOS\Estante.iOS.csproj", "{7AA1DB5D-78DB-4693-AE50-D6078F5A0CAB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estante.App", "Estante.App\Estante.App.csproj", "{1ADACD09-7BE3-46A1-AEAB-C41E78E8700F}"
 EndProject
 Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Estante.App.Tests", "Estante.App.Tests\Estante.App.Tests.csproj", "{0A9CA1A5-5147-4AA8-9B9D-87178DE5A78D}"
