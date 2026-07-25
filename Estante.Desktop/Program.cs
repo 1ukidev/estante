@@ -1,5 +1,5 @@
 ﻿using System;
-using Estante.Game;
+using Estante.App;
 using NativeFileDialogNET;
 using osu.Framework;
 using osu.Framework.Platform;
@@ -11,7 +11,7 @@ namespace Estante.Desktop
         public static void Main()
         {
             using (GameHost host = Host.GetSuitableDesktopHost(@"Estante"))
-            using (osu.Framework.Game game = new EstanteGame(onSelected => openBookSelector(host, onSelected)))
+            using (osu.Framework.Game game = new EstanteApp(onSelected => openBookSelector(host, onSelected)))
                 host.Run(game);
         }
 

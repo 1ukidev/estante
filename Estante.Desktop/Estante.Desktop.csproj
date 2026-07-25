@@ -9,7 +9,7 @@
     <FileVersion>0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup Label="Project References">
-    <ProjectReference Include="..\Estante.Game\Estante.Game.csproj" />
+    <ProjectReference Include="..\Estante.App\Estante.App.csproj" />
   </ItemGroup>
   <ItemGroup Label="Package References">
     <PackageReference Include="NativeFileDialogNET" Version="2.0.2" />

@@ -1,5 +1,5 @@
 using osu.Framework.iOS;
-using Estante.Game;
+using Estante.App;
 
 namespace Estante.iOS
 {
@@ -7,6 +7,6 @@ namespace Estante.iOS
     public class AppDelegate : GameApplicationDelegate
     {
         /// <inheritdoc />
-        protected override osu.Framework.Game CreateGame() => new EstanteGame();
+        protected override osu.Framework.Game CreateGame() => new EstanteApp();
     }
 }

@@ -9,13 +9,13 @@
             "request": "launch",
             "program": "dotnet",
             "args": [
-                "${workspaceRoot}/Estante.Game.Tests/bin/Debug/net8.0/Estante.Game.Tests.dll",
+                "${workspaceRoot}/Estante.App.Tests/bin/Debug/net8.0/Estante.App.Tests.dll",
             ],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "Build (Tests, Debug)",
             "linux": {
                 "env": {
-                    "LD_LIBRARY_PATH": "${workspaceRoot}/Estante.Game.Tests/bin/Debug/net8.0:${env:LD_LIBRARY_PATH}"
+                    "LD_LIBRARY_PATH": "${workspaceRoot}/Estante.App.Tests/bin/Debug/net8.0:${env:LD_LIBRARY_PATH}"
                 }
             },
             "console": "internalConsole"
@@ -26,13 +26,13 @@
             "request": "launch",
             "program": "dotnet",
             "args": [
-                "${workspaceRoot}/Estante.Game.Tests/bin/Release/net8.0/Estante.Game.Tests.dll",
+                "${workspaceRoot}/Estante.App.Tests/bin/Release/net8.0/Estante.App.Tests.dll",
             ],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "Build (Tests, Release)",
             "linux": {
                 "env": {
-                    "LD_LIBRARY_PATH": "${workspaceRoot}/Estante.Game.Tests/bin/Release/net8.0:${env:LD_LIBRARY_PATH}"
+                    "LD_LIBRARY_PATH": "${workspaceRoot}/Estante.App.Tests/bin/Release/net8.0:${env:LD_LIBRARY_PATH}"
                 }
             },
             "console": "internalConsole"

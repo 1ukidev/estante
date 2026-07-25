@@ -11,7 +11,7 @@
     <NoWarn>MT7091</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Estante.Game\Estante.Game.csproj" />
+    <ProjectReference Include="..\Estante.App\Estante.App.csproj" />
     <ProjectReference Include="..\Estante.Resources\Estante.Resources.csproj" />
   </ItemGroup>
   <ItemGroup>
