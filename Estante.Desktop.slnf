@@ -1,0 +1,11 @@
+﻿{
+  "solution": {
+    "path": "Estante.sln",
+    "projects": [
+      "Estante.Desktop\\Estante.Desktop.csproj",
+      "Estante.Game\\Estante.Game.csproj",
+      "Estante.Game.Tests\\Estante.Game.Tests.csproj",
+      "Estante.Resources\\Estante.Resources.csproj"
+    ]
+  }
+}
