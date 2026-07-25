@@ -1,5 +1,8 @@
+using System.Linq;
 using osu.Framework.Allocation;
 using NUnit.Framework;
+using osu.Framework.Graphics.Cursor;
+using osu.Framework.Testing;
 
 namespace Estante.App.Tests.Visual
 {
@@ -13,6 +16,13 @@ namespace Estante.App.Tests.Visual
         private void load()
         {
             AddGame(new EstanteApp());
+        }
+
+        [Test]
+        public void TestCustomCursorIsPresent()
+        {
+            AddUntilStep("custom cursor is present", () => this.ChildrenOfType<CursorContainer>()
+                                                               .Any(cursor => cursor.Name == "Estante cursor"));
         }
     }
 }

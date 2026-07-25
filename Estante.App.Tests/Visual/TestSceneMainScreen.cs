@@ -127,7 +127,7 @@ namespace Estante.App.Tests.Visual
             });
             AddAssert("scroll position changed", () => getReadingScroll().Current / getReadingScroll().ScrollableExtent, () => Is.EqualTo(0.6).Within(0.01));
             AddAssert("back button is present", () => screen.ChildrenOfType<ClickableContainer>().Any(button => button.Name == "Back"));
-            AddAssert("selection actions are present", () => screen.ChildrenOfType<ClickableContainer>().Count(button => button.Name is "Traduzir" or "Pesquisar") == 2);
+            AddAssert("selection actions are present", () => screen.ChildrenOfType<ClickableContainer>().Count(button => button.Name is "Translate" or "Search") == 2);
             AddAssert("translation result card is present", () => screen.ChildrenOfType<Container>().Any(container => container.Name == "Translation result"));
             AddAssert("translation overscroll is contained", () => screen.ChildrenOfType<BasicScrollContainer>()
                                                                        .Single(scroll => scroll.Name == "Translation text")

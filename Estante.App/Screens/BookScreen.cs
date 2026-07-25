@@ -1249,7 +1249,7 @@ namespace Estante.App
                                 RelativeSizeAxes = Axes.Both,
                                 Colour = elevatedSurface
                             },
-                            new SelectionActionButton("Traduzir")
+                            new SelectionActionButton("Translate")
                             {
                                 X = 4,
                                 Y = 4,
@@ -1264,7 +1264,7 @@ namespace Estante.App
                                 Colour = textSecondary,
                                 Alpha = 0.12f
                             },
-                            new SelectionActionButton("Pesquisar")
+                            new SelectionActionButton("Search")
                             {
                                 X = 94,
                                 Y = 4,
