@@ -5,6 +5,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
+using osu.Framework.Input;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK;
@@ -20,7 +21,9 @@ namespace Estante.App
         private EstanteBackButton backButton;
         private Container settingsPanel;
         private LibreTranslateUrlTextBox urlTextBox;
-        private SaveUrlButton saveUrlButton;
+        private LibreTranslateUrlTextBox apiKeyTextBox;
+        private SaveSettingButton saveUrlButton;
+        private SaveSettingButton saveApiKeyButton;
         private TargetLanguageDropdown targetLanguageDropdown;
         private ClearHistoryButton clearHistoryButton;
         private BookHistoryStore historyStore;
@@ -50,7 +53,7 @@ namespace Estante.App
                             Name = "Clear history",
                             Anchor = Anchor.Centre,
                             Origin = Anchor.Centre,
-                            Y = 160,
+                            Y = 190,
                             Action = clearHistory
                         }
                     }
@@ -63,9 +66,9 @@ namespace Estante.App
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
-                Y = -40,
+                Y = -30,
                 Width = 570,
-                Height = 240,
+                Height = 330,
                 Depth = -1,
                 Children = new Drawable[]
                 {
@@ -125,7 +128,7 @@ namespace Estante.App
                         Height = 44,
                         PlaceholderText = TranslationSettingsStore.DEFAULT_LIBRE_TRANSLATE_URL
                     },
-                    saveUrlButton = new SaveUrlButton
+                    saveUrlButton = new SaveSettingButton("Save LibreTranslate URL")
                     {
                         X = 452,
                         Y = 86,
@@ -135,6 +138,30 @@ namespace Estante.App
                     {
                         X = 28,
                         Y = 151,
+                        Text = "LibreTranslate API key",
+                        Font = FontUsage.Default.With(size: 12, weight: "Bold"),
+                        Colour = GruvboxColours.ForegroundMuted
+                    },
+                    apiKeyTextBox = new LibreTranslateUrlTextBox
+                    {
+                        Name = "LibreTranslate API key",
+                        X = 28,
+                        Y = 176,
+                        Width = 414,
+                        Height = 44,
+                        PlaceholderText = "Optional",
+                        InputProperties = new TextInputProperties(TextInputType.Password)
+                    },
+                    saveApiKeyButton = new SaveSettingButton("Save LibreTranslate API key")
+                    {
+                        X = 452,
+                        Y = 176,
+                        Action = saveApiKey
+                    },
+                    new SpriteText
+                    {
+                        X = 28,
+                        Y = 241,
                         Text = "Target language",
                         Font = FontUsage.Default.With(size: 12, weight: "Bold"),
                         Colour = GruvboxColours.ForegroundMuted
@@ -143,7 +170,7 @@ namespace Estante.App
                     {
                         Name = "Target language",
                         X = 28,
-                        Y = 176,
+                        Y = 266,
                         Width = 514,
                         Depth = -1,
                         Items = TranslationLanguages.All
@@ -159,6 +186,9 @@ namespace Estante.App
             urlTextBox.Text = translationSettings.LibreTranslateUrl;
             urlTextBox.OnCommit += (_, _) => saveTranslationUrl();
             urlTextBox.Current.BindValueChanged(_ => saveUrlButton.Reset(), false);
+            apiKeyTextBox.Text = translationSettings.ApiKey;
+            apiKeyTextBox.OnCommit += (_, _) => saveApiKey();
+            apiKeyTextBox.Current.BindValueChanged(_ => saveApiKeyButton.Reset(), false);
 
             TranslationLanguage selectedLanguage = TranslationLanguages.Find(translationSettings.TargetLanguage);
             targetLanguageDropdown.Current.Value = selectedLanguage;
@@ -175,14 +205,14 @@ namespace Estante.App
             backButton.MoveToX(38, 420, Easing.OutQuint);
 
             settingsPanel.Alpha = 0;
-            settingsPanel.Y = -28;
+            settingsPanel.Y = -18;
             settingsPanel.Delay(50).FadeIn(380, Easing.OutQuint);
-            settingsPanel.Delay(50).MoveToY(-40, 460, Easing.OutQuint);
+            settingsPanel.Delay(50).MoveToY(-30, 460, Easing.OutQuint);
 
             clearHistoryButton.Alpha = 0;
-            clearHistoryButton.Y = 170;
+            clearHistoryButton.Y = 200;
             clearHistoryButton.Delay(80).FadeIn(380, Easing.OutQuint);
-            clearHistoryButton.Delay(80).MoveToY(160, 460, Easing.OutQuint);
+            clearHistoryButton.Delay(80).MoveToY(190, 460, Easing.OutQuint);
         }
 
         private void saveTranslationUrl()
@@ -194,6 +224,12 @@ namespace Estante.App
                 saveUrlButton.Reset();
                 urlTextBox.FlashError();
             }
+        }
+
+        private void saveApiKey()
+        {
+            translationSettings.SetApiKey(apiKeyTextBox.Text);
+            saveApiKeyButton.ConfirmSaved();
         }
 
         private void saveTargetLanguage(TranslationLanguage language)
@@ -285,6 +321,7 @@ namespace Estante.App
 
             public LibreTranslateUrlTextBox()
             {
+                FontSize = 15;
                 Masking = true;
                 CornerRadius = 11;
                 BorderThickness = 1;
@@ -300,7 +337,7 @@ namespace Estante.App
                 new SpriteText
                 {
                     Text = c.ToString(),
-                    Font = FontUsage.Default.With(size: 14),
+                    Font = FontUsage.Default.With(size: 15),
                     Colour = textPrimary
                 };
 
@@ -309,7 +346,8 @@ namespace Estante.App
                 {
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft,
-                    Font = FontUsage.Default.With(size: 14),
+                    Scale = new Vector2(0.9f),
+                    Font = FontUsage.Default,
                     Colour = GruvboxColours.ForegroundMuted
                 };
         }
@@ -387,15 +425,15 @@ namespace Estante.App
             }
         }
 
-        private partial class SaveUrlButton : ClickableContainer
+        private partial class SaveSettingButton : ClickableContainer
         {
             private readonly Box background;
             private readonly SpriteIcon icon;
             private readonly SpriteText label;
 
-            public SaveUrlButton()
+            public SaveSettingButton(string name)
             {
-                Name = "Save LibreTranslate URL";
+                Name = name;
                 Width = 90;
                 Height = 44;
                 Masking = true;

@@ -27,6 +27,7 @@ namespace Estante.App.Tests.Translation
             var settings = new TranslationSettingsStore(storage);
 
             Assert.That(settings.LibreTranslateUrl, Is.EqualTo("127.0.0.1:5000"));
+            Assert.That(settings.ApiKey, Is.Empty);
             Assert.That(settings.TargetLanguage, Is.EqualTo("pb"));
         }
 
@@ -48,6 +49,17 @@ namespace Estante.App.Tests.Translation
 
             Assert.That(settings.TrySetLibreTranslateUrl("not a valid url"), Is.False);
             Assert.That(settings.LibreTranslateUrl, Is.EqualTo(TranslationSettingsStore.DEFAULT_LIBRE_TRANSLATE_URL));
+        }
+
+        [Test]
+        public void TestApiKeyPersists()
+        {
+            var settings = new TranslationSettingsStore(storage);
+
+            settings.SetApiKey("  secret-key  ");
+
+            var reloadedSettings = new TranslationSettingsStore(storage);
+            Assert.That(reloadedSettings.ApiKey, Is.EqualTo("secret-key"));
         }
 
         [Test]

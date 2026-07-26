@@ -16,13 +16,25 @@ namespace Estante.App.Tests.Translation
             var handler = new RecordingHandler(HttpStatusCode.OK, """{"translatedText":"Olá, mundo!"}""");
             var client = new LibreTranslateClient(new HttpClient(handler));
 
-            string result = await client.TranslateAsync("127.0.0.1:5000", "Hello, world!", "es");
+            string result = await client.TranslateAsync("127.0.0.1:5000", "Hello, world!", "es", "secret-key");
 
             Assert.That(result, Is.EqualTo("Olá, mundo!"));
             Assert.That(handler.RequestUri?.ToString(), Is.EqualTo("http://127.0.0.1:5000/translate"));
             Assert.That(handler.RequestBody, Does.Contain("\"q\":\"Hello, world!\""));
             Assert.That(handler.RequestBody, Does.Contain("\"source\":\"auto\""));
             Assert.That(handler.RequestBody, Does.Contain("\"target\":\"es\""));
+            Assert.That(handler.RequestBody, Does.Contain("\"api_key\":\"secret-key\""));
+        }
+
+        [Test]
+        public async Task TestOmitsEmptyApiKey()
+        {
+            var handler = new RecordingHandler(HttpStatusCode.OK, """{"translatedText":"Olá"}""");
+            var client = new LibreTranslateClient(new HttpClient(handler));
+
+            await client.TranslateAsync("127.0.0.1:5000", "Hello", "es", "   ");
+
+            Assert.That(handler.RequestBody, Does.Not.Contain("\"api_key\""));
         }
 
         [Test]

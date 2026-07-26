@@ -840,6 +840,7 @@ namespace Estante.App
                     translationSettings.LibreTranslateUrl,
                     selectedText,
                     translationSettings.TargetLanguage,
+                    translationSettings.ApiKey,
                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
                 if (isDisposed || cancellationToken.IsCancellationRequested)

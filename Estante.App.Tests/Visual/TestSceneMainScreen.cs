@@ -5,6 +5,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
+using osu.Framework.Input;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
 
@@ -71,6 +72,34 @@ namespace Estante.App.Tests.Visual
                                                                  .Single(button => button.Name == "Save LibreTranslate URL")
                                                                  .ChildrenOfType<SpriteIcon>()
                                                                  .Any(icon => icon.Icon.Equals(FontAwesome.Solid.Check) && icon.Alpha > 0));
+            AddAssert("LibreTranslate API key is configurable", () => screen.ChildrenOfType<SettingsScreen>().Single()
+                                                                          .ChildrenOfType<TextBox>()
+                                                                          .Single(textBox => textBox.Name == "LibreTranslate API key")
+                                                                          .Text,
+                () => Is.Empty);
+            AddAssert("LibreTranslate API key is hidden", () => screen.ChildrenOfType<SettingsScreen>().Single()
+                                                                    .ChildrenOfType<TextBox>()
+                                                                    .Single(textBox => textBox.Name == "LibreTranslate API key")
+                                                                    .InputProperties.Type,
+                () => Is.EqualTo(TextInputType.Password));
+            AddStep("set LibreTranslate API key", () => screen.ChildrenOfType<SettingsScreen>().Single()
+                                                              .ChildrenOfType<TextBox>()
+                                                              .Single(textBox => textBox.Name == "LibreTranslate API key")
+                                                              .Text = "secret-key");
+            AddStep("save LibreTranslate API key", () => screen.ChildrenOfType<SettingsScreen>().Single()
+                                                               .ChildrenOfType<ClickableContainer>()
+                                                               .Single(button => button.Name == "Save LibreTranslate API key")
+                                                               .TriggerClick());
+            AddAssert("API key save is confirmed", () => screen.ChildrenOfType<SettingsScreen>().Single()
+                                                            .ChildrenOfType<ClickableContainer>()
+                                                            .Single(button => button.Name == "Save LibreTranslate API key")
+                                                            .ChildrenOfType<SpriteText>()
+                                                            .Any(text => text.Text.ToString() == "Saved"));
+            AddAssert("API key save confirmation icon is shown", () => screen.ChildrenOfType<SettingsScreen>().Single()
+                                                                         .ChildrenOfType<ClickableContainer>()
+                                                                         .Single(button => button.Name == "Save LibreTranslate API key")
+                                                                         .ChildrenOfType<SpriteIcon>()
+                                                                         .Any(icon => icon.Icon.Equals(FontAwesome.Solid.Check) && icon.Alpha > 0));
             AddAssert("target language is configurable", () => screen.ChildrenOfType<SettingsScreen>().Single()
                                                                    .ChildrenOfType<Dropdown<TranslationLanguage>>()
                                                                    .Single(dropdown => dropdown.Name == "Target language")

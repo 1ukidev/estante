@@ -22,7 +22,7 @@ namespace Estante.App
             this.httpClient = httpClient ?? shared_http_client;
         }
 
-        public async Task<string> TranslateAsync(string serverUrl, string text, string targetLanguage, CancellationToken cancellationToken = default)
+        public async Task<string> TranslateAsync(string serverUrl, string text, string targetLanguage, string apiKey = null, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(text))
                 throw new ArgumentException("Text cannot be empty.", nameof(text));
@@ -37,7 +37,8 @@ namespace Estante.App
                     Q = text,
                     Source = "auto",
                     Target = targetLanguage,
-                    Format = "text"
+                    Format = "text",
+                    ApiKey = string.IsNullOrWhiteSpace(apiKey) ? null : apiKey.Trim()
                 })
             };
             using HttpResponseMessage response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
@@ -108,6 +109,10 @@ namespace Estante.App
 
             [JsonPropertyName("format")]
             public string Format { get; set; }
+
+            [JsonPropertyName("api_key")]
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            public string ApiKey { get; set; }
         }
 
         private sealed class TranslationResponse

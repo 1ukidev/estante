@@ -19,6 +19,7 @@ namespace Estante.App
         private readonly Storage storage;
 
         public string LibreTranslateUrl { get; private set; } = DEFAULT_LIBRE_TRANSLATE_URL;
+        public string ApiKey { get; private set; } = string.Empty;
         public string TargetLanguage { get; private set; } = DEFAULT_TARGET_LANGUAGE;
 
         public TranslationSettingsStore(Storage storage)
@@ -37,6 +38,12 @@ namespace Estante.App
             LibreTranslateUrl = trimmedValue;
             save();
             return true;
+        }
+
+        public void SetApiKey(string value)
+        {
+            ApiKey = value?.Trim() ?? string.Empty;
+            save();
         }
 
         public bool TrySetTargetLanguage(string languageCode)
@@ -62,12 +69,15 @@ namespace Estante.App
                 if (LibreTranslateClient.TryCreateTranslateEndpoint(data?.LibreTranslateUrl, out _))
                     LibreTranslateUrl = data.LibreTranslateUrl.Trim();
 
+                ApiKey = data?.ApiKey?.Trim() ?? string.Empty;
+
                 if (TranslationLanguages.IsSupported(data?.TargetLanguage))
                     TargetLanguage = data.TargetLanguage.ToLowerInvariant();
             }
             catch
             {
                 LibreTranslateUrl = DEFAULT_LIBRE_TRANSLATE_URL;
+                ApiKey = string.Empty;
                 TargetLanguage = DEFAULT_TARGET_LANGUAGE;
             }
         }
@@ -78,6 +88,7 @@ namespace Estante.App
             JsonSerializer.Serialize(stream, new TranslationSettingsData
             {
                 LibreTranslateUrl = LibreTranslateUrl,
+                ApiKey = ApiKey,
                 TargetLanguage = TargetLanguage
             }, serializer_options);
         }
@@ -85,6 +96,7 @@ namespace Estante.App
         private sealed class TranslationSettingsData
         {
             public string LibreTranslateUrl { get; set; }
+            public string ApiKey { get; set; }
             public string TargetLanguage { get; set; }
         }
     }
